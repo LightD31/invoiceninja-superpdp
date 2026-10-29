@@ -1,0 +1,10 @@
+{
+    "name": "lightd31/invoiceninja-superpdp",
+    "description": "SUPER PDP connector module for Invoice Ninja v5",
+    "type": "laravel-module",
+    "autoload": {
+        "psr-4": {
+            "Modules\\SuperPdp\\": "app/"
+        }
+    }
+}

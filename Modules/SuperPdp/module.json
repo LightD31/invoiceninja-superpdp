@@ -1,0 +1,11 @@
+{
+    "name": "SuperPdp",
+    "alias": "superpdp",
+    "description": "French e-invoicing through SUPER PDP (plateforme agréée): send Factur-X, track statuses, report payments, import received invoices.",
+    "keywords": ["superpdp", "factur-x", "e-invoicing", "france"],
+    "priority": 0,
+    "providers": [
+        "Modules\\SuperPdp\\Providers\\SuperPdpServiceProvider"
+    ],
+    "files": []
+}
