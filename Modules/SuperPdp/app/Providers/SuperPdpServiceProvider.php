@@ -49,10 +49,13 @@ class SuperPdpServiceProvider extends ServiceProvider
         Event::listen(PaymentWasCreated::class, QueuePaymentReport::class);
         Event::listen(PaymentCompleted::class, QueuePaymentReport::class);
 
+        // No withoutOverlapping(): with it, schedule:run intermittently threw
+        // "Undefined variable $result" in Container::call while checking the
+        // reject callbacks (PHP 8.5.12 + JIT, Laravel 12.70), which drops every
+        // event due that minute. The command takes its own lock instead.
         $this->callAfterResolving(Schedule::class, function (Schedule $schedule) {
             $schedule->command('superpdp:sync')
                 ->cron(config('superpdp.sync_cron'))
-                ->withoutOverlapping(30)
                 ->runInBackground();
         });
     }

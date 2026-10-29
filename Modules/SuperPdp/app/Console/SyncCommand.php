@@ -3,6 +3,7 @@
 namespace Modules\SuperPdp\Console;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Cache;
 use Modules\SuperPdp\Services\DocumentQueue;
 use Modules\SuperPdp\Services\SuperPdpClient;
 use Modules\SuperPdp\Services\Synchronizer;
@@ -26,6 +27,23 @@ class SyncCommand extends Command
             return self::FAILURE;
         }
 
+        $lock = Cache::lock('superpdp:sync', 1800);
+
+        if (! $lock->get()) {
+            $this->line('Another superpdp:sync is running.');
+
+            return self::SUCCESS;
+        }
+
+        try {
+            return $this->sync($api, $sync, $queue);
+        } finally {
+            $lock->release();
+        }
+    }
+
+    private function sync(SuperPdpClient $api, Synchronizer $sync, DocumentQueue $queue): int
+    {
         $only = array_filter(['sweep' => $this->option('sweep'), 'events' => $this->option('events'), 'incoming' => $this->option('incoming')]);
         $run = fn (string $step) => $only === [] || isset($only[$step]);
         $ok = true;
