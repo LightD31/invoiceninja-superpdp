@@ -113,3 +113,7 @@ There is no screen: Invoice Ninja's admin UI is a compiled SPA that modules can'
 - **Received invoices**: no buyer statuses (fr:204 Prise en charge, fr:205 Approuvée, fr:210 Refusée…) are sent for them. Use the SUPER PDP account.
 - **B2G (Chorus Pro), self-billing and payee or third parties** aren't covered.
 - **Invoice Ninja importer bug**: its Factur-X import crashes on supplier invoices that have no seller contact. The module tolerates that warning, and wraps each import in a transaction so a failed import leaves no empty expense.
+
+## License
+
+[GNU Affero General Public License v3.0](LICENSE).
